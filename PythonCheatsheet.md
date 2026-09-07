@@ -6,7 +6,7 @@ A concise, high-yield Python cheat sheet and reference guide designed for fast r
 
 ## 1. Core Syntax & Primitive Types
 
-```
+```python
 # Variables are dynamically typed (no explicit type declaration needed)
 x = 42              # int
 pi = 3.14159        # float
@@ -25,7 +25,31 @@ greeting = f"User {name} has score: {pi:.2f}"  # 'User Dev has score: 3.14'
 
 ---
 
-## 2. `print()` Parameters Mastered
+## 2. Escape Sequences, Backslash & Line Continuation
+
+| Syntax | Use | Example |
+| :--- | :--- | :--- |
+| `\` | Continue statement on the next line | `total = 10 + 20 + \`<br>`30 + 40` |
+| `\n` | New line | `"Hello\nWorld"` |
+| `\t` | Tab space | `"Name:\tJai"` |
+| `\\` | Literal backslash | `"C:\\Users\\Jai"` |
+| `\"` | Double quote inside double-quoted string | `"He said \"Hi\""` |
+| `\'` | Single quote inside single-quoted string | `'It\'s good'` |
+| `r"..."` | Raw string (treats backslashes literally) | `r"C:\Users\Jai"` |
+
+> **Best Practice:** Prefer parentheses `()`, brackets `[]`, or braces `{}` for multi-line expressions instead of `\`:
+
+```python
+# Clean multi-line statement via grouping parentheses
+total = (
+    10 + 20 +
+    30 + 40
+)
+```
+
+---
+
+## 3. `print()` Parameters Mastered
 
 **Signature:** `print(*objects, sep=' ', end='\n', file=None, flush=False)`
 
@@ -37,7 +61,7 @@ greeting = f"User {name} has score: {pi:.2f}"  # 'User Dev has score: 3.14'
 | `file` | `file-like` (default: `sys.stdout`) | Output destination (`sys.stderr`, open writable file, etc.). |
 | `flush` | `bool` (default: `False`) | If `True`, forces stream buffer to flush immediately. |
 
-```
+```python
 import sys
 
 # sep: Custom separator
@@ -54,14 +78,14 @@ print("Updating...", end="", flush=True)
 print("\nWarning: check logs", file=sys.stderr)
 
 with open("log.txt", "w", encoding="utf-8") as f:
-    print("Log entry # 1", 200, sep=" -> ", file=f)
+    print("Log entry #1", 200, sep=" -> ", file=f)
 ```
 
 ---
 
-## 3. Data Structures
+## 4. Data Structures
 
-```
+```python
 # 1. LIST: Ordered, mutable, allows duplicate values
 nums = [1, 2, 3]
 nums.append(4)             # [1, 2, 3, 4]
@@ -89,9 +113,9 @@ common_set = tags & {"python", "c++"}    # Intersection: {'python'}
 
 ---
 
-## 4. Control Flow & Loops
+## 5. Control Flow & Loop Controls
 
-```
+```python
 # Standard conditionals
 score = 85
 if score >= 90:
@@ -107,21 +131,35 @@ status = "Pass" if score >= 50 else "Fail"
 # Iterating with index using enumerate()
 for idx, item in enumerate(["alpha", "beta"]):
     print(f"Index {idx}: {item}")
-
-# While loop with break/continue
-count = 3
-while count > 0:
-    count -= 1
-    if count == 1:
-        continue  # Skip rest of this iteration
-    print(f"Count: {count}")
 ```
+
+### Loop Jump Statements
+
+| Keyword | Use | Behavior |
+| :--- | :--- | :--- |
+| `continue` | Skip iteration | Skips remainder of current cycle and jumps to next |
+| `break` | Exit loop | Terminates loop immediately |
+| `pass` | Placeholder | Does nothing (keeps syntax valid) |
+
+```python
+for i in range(5):
+    if i == 2:
+        continue   # Skips 2, proceeds directly to 3
+    if i == 4:
+        break      # Stops the entire loop
+    print(i)       # Prints 0, 1, 3
+```
+
+* **`\`** $\rightarrow$ Line continuation or string escape
+* **`continue`** $\rightarrow$ Skip current iteration
+* **`break`** $\rightarrow$ Stop loop completely
+* **`pass`** $\rightarrow$ No-op placeholder
 
 ---
 
-## 5. Comprehensions
+## 6. Comprehensions
 
-```
+```python
 # List comprehension: [expression for item in iterable if condition]
 evens = [x for x in range(10) if x % 2 == 0]     # [0, 2, 4, 6, 8]
 
@@ -134,9 +172,9 @@ word_lens = {len(w) for w in ["apple", "pear", "banana"]}
 
 ---
 
-## 6. Functions, `*args`, & `**kwargs`
+## 7. Functions, `*args`, & `**kwargs`
 
-```
+```python
 # Default arguments & type annotations
 def calculate_area(width: float, height: float = 1.0) -> float:
     return width * height
@@ -154,9 +192,9 @@ double = lambda x: x * 2
 
 ---
 
-## 7. File I/O & Exception Handling
+## 8. File I/O & Exception Handling
 
-```
+```python
 # Context manager 'with' guarantees proper file closing
 with open("data.txt", "w", encoding="utf-8") as f:
     f.write("Line 1\nLine 2")
@@ -179,9 +217,9 @@ finally:
 
 ---
 
-## 8. Classes & Dataclasses
+## 9. Classes & Dataclasses
 
-```
+```python
 # Standard OOP class definition
 class BankAccount:
     def __init__(self, owner: str, balance: float = 0.0):
@@ -213,12 +251,12 @@ print(item)
 
 ---
 
-## 9. High-Utility Built-ins
+## 10. High-Utility Built-ins
 
 | Function | Purpose | Example |
 | :--- | :--- | :--- |
-| `zip()` | Pairs iterables element-by-element | `list(zip(['a', 'b'], [1, 2]))` → `[('a', 1), ('b', 2)]` |
+| `zip()` | Pairs iterables element-by-element | `list(zip(['a', 'b'], [1, 2]))` $\rightarrow$ `[('a', 1), ('b', 2)]` |
 | `sorted()` | Returns a new sorted list (supports `key=`) | `sorted(['cat', 'zebra', 'ox'], key=len)` |
-| `any()` / `all()` | Evaluates truthiness across iterable | `all([True, 1, 'yes'])` → `True` |
-| `map()` | Applies a function to every item | `list(map(str.upper, ['a', 'b']))` → `['A', 'B']` |
-| `filter()` | Keeps items where condition evaluates `True` | `list(filter(lambda x: x > 0, [-1, 2]))` → `[2]` |
+| `any()` / `all()` | Evaluates truthiness across iterable | `all([True, 1, 'yes'])` $\rightarrow$ `True` |
+| `map()` | Applies a function to every item | `list(map(str.upper, ['a', 'b']))` $\rightarrow$ `['A', 'B']` |
+| `filter()` | Keeps items where condition evaluates `True` | `list(filter(lambda x: x > 0, [-1, 2]))` $\rightarrow$ `[2]` |
